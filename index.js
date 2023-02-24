@@ -1,11 +1,13 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require('express');
 const app = express();
+
+
+const router = require("./app/router");
+app.use("/v1",router);
+
 const port = process.env.PORT ?? 3000;
 
-const router = require ('./app/router');
-app.use("/v1",router)
-
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${port}`);
 });
