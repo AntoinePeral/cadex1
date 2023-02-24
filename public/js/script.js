@@ -21,8 +21,13 @@ const app = {
     displayPhrase: (phrase) => {
         //on retire l'éventuelle phrase affichée précédemment
         app.clearWords();
+   
+        console.log(Object.values(phrase));
+
         //on récupère chaque mot dans un tableau
-        const words = phrase.split(' ');
+        // const words = phrase.split(' ');
+        const words = Object.values(phrase)
+
         //on crée un span avec un délai d'affichage pour l'animation
         const spans = words.map(app.createWord);
         //on ajoute les spans en spreadant le tableau
@@ -40,16 +45,16 @@ const app = {
             console.error(error);
         }
     },
+    hideForm: () => {
+        document.querySelector('form').style.display = 'none';
+        document.querySelector('.formOpen').style.display = 'block';
+    },
 
     showForm: () => {
         document.querySelector('.formOpen').style.display = 'none';
         document.querySelector('form').style.display = 'block';
     },
 
-    hideForm: () => {
-        document.querySelector('form').style.display = 'none';
-        document.querySelector('.formOpen').style.display = 'block';
-    },
 
     postCadex: async event => {
         //on intercepte la validation du formulaire par le user
@@ -86,6 +91,8 @@ const app = {
         try {
             const response = await fetch(`${app.baseUrl}/cadex${location.search}`);
             const phrase = await response.json();
+            console.log(location.search);
+            console.log(phrase);
             app.displayPhrase(phrase);
         } catch (error) {
             console.error(error);
