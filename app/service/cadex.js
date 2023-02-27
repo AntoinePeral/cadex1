@@ -1,17 +1,31 @@
 // Le service Cadex va être utilisé pour effectuer tout le travail autour des Cadex
 
 const data = require("../../data/parts.json");
+/*
+{
+    names:["..."]
+    ...
+}
+
+*/
+
 
 const cadexService  = {
     generate(){
         return {
-            name:cadexService.getRandomName()
+            name:cadexService.getRandom("names"),
+            adjective:cadexService.getRandom("adjectives"),
+            verb:cadexService.getRandom("verbs"),
+            complement:cadexService.getRandom("complements"),
+            toString(){
+                return `${this.name} ${this.adjective} ${this.verb} ${this.complement}`;
+            }
         };
     },
-    getRandomName(){
+    getRandom(category){
         // Je récupère un index aléatoire dans mon tableau de nom (data.names)
-        const randomIndex = getRandomIndex(0,data.names.length);
-        console.log("randomIndex",randomIndex);
+        const randomIndex = getRandomIndex(0,data[category].length);
+        // console.log("randomIndex",randomIndex);
         /*
             Pour une plage de 0 à 5
 
@@ -30,7 +44,17 @@ const cadexService  = {
 
         */
 
-        return data.names[randomIndex];
+        // je retourne un élément de la catégorie suivant l'index aléatoire
+        return data[category][randomIndex];
+    },
+    add(form){
+        for(const key in data){
+            // est ce que key est une clef de form ?
+            if(form[key.slice(0,-1)]){
+                // si oui j'ajoute au dictionnaire
+                data[key].push(form[key.slice(0,-1)]);
+            }
+        }
     }
 };
 

@@ -3,7 +3,10 @@ const router = express.Router();
 
 const controller = require("./controller");
 
-// /v1/cadex
+// GET /v1/cadex
 router.get("/cadex",controller.getCadex);
+
+// POST /v1/cadex
+router.post("/cadex",controller.addCadex);
 
 module.exports = router;
