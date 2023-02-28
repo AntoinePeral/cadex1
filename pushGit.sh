@@ -1,3 +1,3 @@
 git add .
-git commit -m "ajout du MCD"
+git commit -m "ajout des scripts SQL"
 git push
