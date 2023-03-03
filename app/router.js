@@ -4,10 +4,25 @@ const router = express.Router();
 const validationModule=require("./service/validation/validate");
 const controller = require("./controller");
 
-// GET /v1/cadex
+/**
+ * @route GET /v1/cadex
+ * @group Cadex - récupération d'un Cadex
+ * @param {string} name.query - nom
+ * @param {string} adjective.query - adjectif
+ * @param {string} verb.query - verbe
+ * @param {string} complement.query - complément
+ * @returns {object} 200 - Une phrase Cadex
+ * @returns {Error}  default - Unexpected error
+ */
 router.get("/cadex", validationModule.validate("query") ,controller.getCadex);
 
-// POST /v1/cadex
+/**
+ * @route POST /v1/cadex
+ * @group Cadex - ajout de mots à notre dictionnaire
+ * @param {Cadex.model} proposal.body.required - objet Cadex
+ * @returns {object} 200 - Une phrase Cadex
+ * @returns {Error}  default - Unexpected error
+ */
 router.post("/cadex", validationModule.validate("body"),controller.addCadex);
 
 

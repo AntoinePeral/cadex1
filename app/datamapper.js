@@ -1,7 +1,19 @@
 const client = require("./dbClient");
 
+/**
+ * Un Cadex est un objet composé d'un nom, d'un adjective, d'un verbe et d'un complément
+ * @typedef {Object} Cadex
+ * @property {string} name - nom
+ * @property {string} adjective - adjectif
+ * @property {string} verb - verbe
+ * @property {string} complement - complément
+ */
 
 const dataMapper = {
+    /**
+     * Permet de générer un Cadex
+     * @returns {Cadex} Cadex
+     */
     async generate(){
         const sqlQuery = `
             SELECT name.label as "name",adjective.label as "adjective",verb.label as "verb",complement.label as "complement"
@@ -31,6 +43,10 @@ const dataMapper = {
             }
         };
     },
+    /**
+     * Ajoute un Cadex en BDD
+     * @param {Cadex} form  - données entrantes du formulaire
+     */
     add(form){
         // for(const key in data){
         //     // est ce que key est une clef de form ?

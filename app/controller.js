@@ -2,6 +2,12 @@
 const dataMapper = require("./datamapper");
 
 const cadexController = {
+    /**
+     * Récupération d'un cadex
+     * @param {object} req requête Express
+     * @param {object} res réponse Express
+     * @return {string} retourne une phrase Cadex
+     */
     async getCadex(req,res){
         
         let cadex = await dataMapper.generate();
@@ -14,6 +20,12 @@ const cadexController = {
 
         res.json(cadex.toString());
     },
+    /**
+     * Ajout des données du formulaire en BDD
+     * @param {*} req requête Express
+     * @param {*} res réponse Express
+     * @returns {string} retourne une phrase Cadex
+     */
     async addCadex(req,res){
         
         // 1. on ajoute au dicutonnaire les données du formulaire
