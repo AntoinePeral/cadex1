@@ -14,3 +14,7 @@ Le Test Driven Development est une façon de gérer son projet en écrivant les 
 
 Les TDD visent à rendre la partie développement plus efficace en évitant des fioritures.
 On ne se contente que de répondre favorablement au test.
+
+## Test d'une API
+
+Dans le cadre d'une API, les tests doivent cibler les routes. Celles-ci représentent les différentes fonctionnalités mises à disposition des utilisateurs.

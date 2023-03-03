@@ -10,10 +10,16 @@ router.get("/cadex", controller.getCadex);
 const express = require("express");
 const router = express.Router();
 
+const validationModule=require("./service/validation/validate");
 const controller = require("./controller");
 
-// /v1/cadex
-router.get("/cadex",controller.getCadex);
->>>>>>> 8e399879b324588460aca428b2be0a192bc6bdb0
+// GET /v1/cadex
+router.get("/cadex", validationModule.validate("query") ,controller.getCadex);
+
+// POST /v1/cadex
+router.post("/cadex", validationModule.validate("body"),controller.addCadex);
+
+
+
 
 module.exports = router;
