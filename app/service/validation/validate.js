@@ -2,7 +2,12 @@ const { cadexSchema } = require("./schema");
 
 const validationModule = {
 
-    // Valide les query string de ma requête
+    /**
+     * Valide les query string de ma requête
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
     validateQuery(req, res, next) {
         const { error } = cadexSchema.validate(req.query);
         if (error) {
@@ -14,7 +19,12 @@ const validationModule = {
             next();
         }
     },
-    // Valide le body de ma requête
+    /**
+     * Valide le body de ma requête
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
     validateBody(req, res, next) {
         const { error } = cadexSchema.validate(req.body);
 
@@ -29,7 +39,7 @@ const validationModule = {
     },
     // Exemple d'appel d'un middleware avec un paramètre
     validate(param){
-        console.log(param);
+        // console.log(param);
         return (req,res,next) =>{
             const { error } = cadexSchema.validate(req[param]);
 

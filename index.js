@@ -1,6 +1,50 @@
 require("dotenv").config();
 const express = require('express');
+
 const app = express();
+
+//#region Swagger
+
+/*********************************************/
+/********* EXPRESS SWAGGER GENERATOR *********/
+/*********************************************/
+
+const expressSwagger = require('express-swagger-generator')(app);
+
+let options = {
+    swaggerDefinition: {
+        info: {
+            description: 'Documentation de l\'API Cadex',
+            title: 'Cadex API',
+            version: '1.0.0',
+        },
+        host: 'localhost:3000',
+        basePath: '/',
+        produces: [
+            "application/json",
+            "application/xml"
+        ],
+        schemes: ['http', 'https'],
+        securityDefinitions: {
+            JWT: {
+                type: 'apiKey',
+                in: 'header',
+                name: 'Authorization',
+                description: "",
+            }
+        }
+    },
+    basedir: __dirname, //app absolute path
+    files: ['./app/*.js'] //Path to the API handle folder
+};
+expressSwagger(options);
+
+//#endregion Swagger
+
+
+/*********************************************/
+/************** Config Express ***************/
+/*********************************************/
 
 app.use(express.static('public'));
 
