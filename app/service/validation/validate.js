@@ -29,7 +29,7 @@ const validationModule = {
     },
     // Exemple d'appel d'un middleware avec un paramètre
     validate(param){
-        console.log(param);
+        // console.log(param);
         return (req,res,next) =>{
             const { error } = cadexSchema.validate(req[param]);
 
