@@ -31,3 +31,4 @@ for (const tableName in data) { // je parcours les clefs de mon JSON
     }
 }
 console.log(counter);
+
