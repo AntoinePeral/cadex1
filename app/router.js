@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const debug = require("debug")("router");
 const validationModule=require("./service/validation/validate");
 const controller = require("./controller");
 
@@ -89,6 +89,8 @@ router.get("/cadex", validationModule.validate("query") ,controller.getCadex);
  *               "un cheval bien cuit consulte un seau en plastique"
  */
 router.post("/cadex", validationModule.validate("body"),controller.addCadex);
+
+
 
 
 module.exports = router;

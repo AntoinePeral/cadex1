@@ -1,5 +1,8 @@
 // const cadexService = require("./service/cadex");
 const dataMapper = require("./datamapper");
+const APIError = require("./service/error/APIError");
+
+const debug = require("debug")("controller");
 
 const cadexController = {
     /**
@@ -8,17 +11,23 @@ const cadexController = {
      * @param {object} res réponse Express
      * @return {string} retourne une phrase Cadex
      */
-    async getCadex(req,res){
+    async getCadex(req,res,next){
         
         let cadex = await dataMapper.generate();
 
-        // console.log(cadex);
-        // console.log(req.query);
-        cadex = { ...cadex, ...req.query};
-        console.log("CONTROLLER");
-        console.log(cadex);
+        // Je teste si cadex est vide pour renvoyer une erreur
+        if(cadex){
+            // console.log(cadex);
+            // console.log(req.query);
+            cadex = { ...cadex, ...req.query};
+            debug("CONTROLLER");
+            debug(cadex);
 
-        res.json(cadex.toString());
+            res.json(cadex.toString());
+        }
+        else{
+            next(new APIError("Erreur lors de la récupération du Cadex",500));
+        }
     },
     /**
      * Ajout des données du formulaire en BDD
