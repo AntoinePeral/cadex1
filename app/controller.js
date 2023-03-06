@@ -12,7 +12,7 @@ const cadexController = {
         
         let cadex = await dataMapper.generate();
 
-        // console.log(cadex);
+        // console.log(cadex);s
         // console.log(req.query);
         cadex = { ...cadex, ...req.query};
         console.log("CONTROLLER");
@@ -40,4 +40,4 @@ const cadexController = {
 };
 
 module.exports = cadexController;
->>>>>>> 8e399879b324588460aca428b2be0a192bc6bdb0
+

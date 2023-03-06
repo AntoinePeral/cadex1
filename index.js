@@ -6,38 +6,26 @@ const app = express();
 //#region Swagger
 
 /*********************************************/
-/********* EXPRESS SWAGGER GENERATOR *********/
+/********* swagger-jsdoc *********/
 /*********************************************/
 
-const expressSwagger = require('express-swagger-generator')(app);
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
-let options = {
-    swaggerDefinition: {
-        info: {
-            description: 'Documentation de l\'API Cadex',
-            title: 'Cadex API',
-            version: '1.0.0',
-        },
-        host: 'localhost:3000',
-        basePath: '/',
-        produces: [
-            "application/json",
-            "application/xml"
-        ],
-        schemes: ['http', 'https'],
-        securityDefinitions: {
-            JWT: {
-                type: 'apiKey',
-                in: 'header',
-                name: 'Authorization',
-                description: "",
-            }
-        }
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Cadex API',
+      version: '1.0.0',
     },
-    basedir: __dirname, //app absolute path
-    files: ['./app/*.js'] //Path to the API handle folder
+  },
+  apis: ['./app/router.js'], // files containing annotations as above
 };
-expressSwagger(options);
+
+const openapiSpecification = swaggerJsdoc(options);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 //#endregion Swagger
 
