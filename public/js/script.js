@@ -21,8 +21,13 @@ const app = {
     displayPhrase: (phrase) => {
         //on retire l'éventuelle phrase affichée précédemment
         app.clearWords();
+   
+        // console.log(Object.values(phrase));no
+
         //on récupère chaque mot dans un tableau
         const words = phrase.split(' ');
+        // const words = Object.values(phrase)
+s
         //on crée un span avec un délai d'affichage pour l'animation
         const spans = words.map(app.createWord);
         //on ajoute les spans en spreadant le tableau
@@ -86,6 +91,8 @@ const app = {
         try {
             const response = await fetch(`${app.baseUrl}/cadex${location.search}`);
             const phrase = await response.json();
+            console.log(location.search);
+            console.log(phrase);
             app.displayPhrase(phrase);
         } catch (error) {
             console.error(error);
