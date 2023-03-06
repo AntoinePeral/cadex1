@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const debug = require ('debug')('router')
-
+const debug = require("debug")("router");
 const validationModule=require("./service/validation/validate");
 const controller = require("./controller");
 

@@ -20,7 +20,7 @@ const dataMapper = {
 
         const sqlQuery = `
             SELECT name.label as "name",adjective.label as "adjective",verb.label as "verb",complement.label as "complement"
-            FROM name,adjective,verb,complement
+            FROM names,adjective,verb,complement
             ORDER BY random()
             LIMIT 1;`;
 
