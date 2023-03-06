@@ -1,5 +1,6 @@
 const client = require("./dbClient");
-
+const errorModule = require("./service/error/errorHandling");
+const debug = require("debug")("datamapper");
 /**
  * Un Cadex est un objet composé d'un nom, d'un adjective, d'un verbe et d'un complément
  * @typedef {Object} Cadex
@@ -15,33 +16,46 @@ const dataMapper = {
      * @returns {Cadex} Cadex
      */
     async generate(){
+        let response;
+
         const sqlQuery = `
             SELECT name.label as "name",adjective.label as "adjective",verb.label as "verb",complement.label as "complement"
             FROM name,adjective,verb,complement
             ORDER BY random()
             LIMIT 1;`;
 
-        const response = await client.query(sqlQuery);
-        const cadex = response.rows[0];
-        console.log("DATAMAPPER");
-        console.log(cadex);
+        try{
+            // Quand j'appelle un système externe à Node (ici la BDD)
+            // Je ne maîtrise pas la réponse (quand ? quoi ?)
+            response = await client.query(sqlQuery);
+        }
+        catch(err){
+            errorModule.log(err);
+        }
 
-        // return {
-        //     name:cadex.name,
-        //     adjective:cadex.adjective,
-        //     verb:cadex.verb,
-        //     complement:cadex.complement,
-        //     toString(){
-        //         return `${this.name} ${this.adjective} ${this.verb} ${this.complement}`;
-        //     }
-        // }
+        if(response){
+            const cadex = response.rows[0];
+            debug("DATAMAPPER");
+            debug(cadex);
 
-        return {
-            ...cadex,
-            toString(){
-                return `${this.name} ${this.adjective} ${this.verb} ${this.complement}`;
-            }
-        };
+            // return {
+            //     name:cadex.name,
+            //     adjective:cadex.adjective,
+            //     verb:cadex.verb,
+            //     complement:cadex.complement,
+            //     toString(){
+            //         return `${this.name} ${this.adjective} ${this.verb} ${this.complement}`;
+            //     }
+            // }
+
+            return {
+                ...cadex,
+                toString(){
+                    return `${this.name} ${this.adjective} ${this.verb} ${this.complement}`;
+                }
+            };
+        }
+
     },
     /**
      * Ajoute un Cadex en BDD

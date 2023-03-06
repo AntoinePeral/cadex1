@@ -1,4 +1,6 @@
+const APIError = require("../error/APIError");
 const { cadexSchema } = require("./schema");
+const debug = require("debug")("module:validation"); // je déclare l'utilisation d'un espace de nom (namespace)
 
 const validationModule = {
 
@@ -11,7 +13,7 @@ const validationModule = {
     validateQuery(req, res, next) {
         const { error } = cadexSchema.validate(req.query);
         if (error) {
-            console.error(error);
+            debug(error);
             res.status(500).json({error:"Erreur interne"});
         }
         else {
@@ -29,7 +31,7 @@ const validationModule = {
         const { error } = cadexSchema.validate(req.body);
 
         if (error) {
-            console.error(error);
+            debug(error);
             res.status(500).json({error:"Erreur interne"});
         }
         else {
@@ -44,8 +46,7 @@ const validationModule = {
             const { error } = cadexSchema.validate(req[param]);
 
             if (error) {
-                console.error(error);
-                res.status(500).json({error:"Erreur interne"});
+                next(new APIError(error.message,400));
             }
             else {
                 // s'il n'y a pas d'erreur je passe à la suite
