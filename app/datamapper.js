@@ -20,7 +20,7 @@ const dataMapper = {
 
         const sqlQuery = `
             SELECT name.label as "name",adjective.label as "adjective",verb.label as "verb",complement.label as "complement"
-            FROM names,adjective,verb,complement
+            FROM name,adjective,verb,complement
             ORDER BY random()
             LIMIT 1;`;
 
@@ -30,7 +30,7 @@ const dataMapper = {
             response = await client.query(sqlQuery);
         }
         catch(err){
-            errorModule.log(err);
+            await errorModule.log(err,"BDD");
         }
 
         if(response){

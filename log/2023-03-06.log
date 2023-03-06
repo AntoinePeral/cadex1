@@ -1,0 +1,8 @@
+date;contexte;message
+2023-03-06T13:13:22.988Z;BDD;relation "namse" does not exist
+date;contexte;message
+2023-03-06T13:13:23.012Z;/v1/cadex;Erreur lors de la récupération du Cadex
+2023-03-06T13:13:23.119Z;BDD;relation "namse" does not exist
+2023-03-06T14:16:13.251Z;BDD;relation "namse" does not exist
+2023-03-06T14:16:13.252Z;/v1/cadex;Erreur lors de la récupération du Cadex
+2023-03-06T14:16:13.274Z;BDD;relation "namse" does not exist

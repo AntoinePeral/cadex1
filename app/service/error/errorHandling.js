@@ -1,7 +1,9 @@
 const APIError = require("./APIError");
 
 const debug = require("debug")("error");
-
+const path = require("path");
+const fs = require('fs').promises;
+const createWriteStream = require('fs').createWriteStream;
 
 const errorModule = {
     /**
@@ -11,9 +13,9 @@ const errorModule = {
      * @param {*} res 
      * @param {*} next 
      */
-    manage(err, req, res, next) {
+    async manage(err, req, res, next) {
         // 1. J'enregistre l'erreur avec les infos nécessaires pour pouvoir analyser le soucis (log d'erreur)
-        errorModule.log(err);
+        await errorModule.log(err, req.url);
 
         // 2. J'informe le client/utilisateur
         switch (err.code) {
@@ -35,13 +37,66 @@ const errorModule = {
      * @param {*} __ 
      * @param {*} next middleware pour indiquer à Express qu'il y a une erreur
      */
-    _404(_,__,next) {
+    _404(_, __, next) {
         next(new APIError('Not found', 404));
     },
-    log(err){
+    async log(err, context) {
         debug(err); // <= debug en DEV
         // je vais générer des fichiers textes qui vont enregistrer les erreurs // <= log pour la production
 
+        // le nom du fichier va être en rapport avec son contenu
+        // par exemple, on va partir sur un nouveau fichier par jour
+        // nous choisissons de partir sur un nom de fichier qui contienne la date : YYYY-MM-DD.log
+        // const actualDate = new Date();
+        // let monthNumber = actualDate.getUTCMonth()+1;
+        // if(monthNumber<10){
+        //     monthNumber = "0"+monthNumber;
+        // }
+        // let dayNumber = actualDate.getUTCDate();
+        // if(dayNumber<10){
+        //     dayNumber = "0"+dayNumber;
+        // }
+        // const fileName = `${actualDate.getUTCFullYear()}-${monthNumber}-${dayNumber}.log`; 
+
+
+        const fileName = new Date().toISOString().slice(0, 10) + ".log";
+        const filePath = path.resolve(__dirname, "../../../log") + "/" + fileName;
+        // debug(filePath);
+
+        const fileBody = `${new Date().toISOString()};${context};${err.message}\n`;
+        // appendFile peut engendrer des problèmes de mémoire (besoin de refermer la connexion au fichier)
+        // fs.appendFile(filePath + "/" + fileName, fileBody, function (err) {
+        //     if (err) {
+        //         console.log("##################"+ err);
+        //     }
+        //     else {
+        //         debug('Saved!');
+        //     }
+        // });
+
+        // 1- je vérifie si le fichier existe et je le crèe sinon
+        //  1-1 s'il n'existe pas, je lui ajoute les headers
+        // 2- j'écris l'erreur
+        let file;
+        
+        try{
+            file=await fs.open(filePath, { flags: 'a' });
+        }
+        catch(err){
+
+        }
+
+        // si le fichier n'existe pas
+        if(!file){
+            await fs.writeFile(filePath, "date;contexte;message\n");
+            file=await fs.open(filePath);
+        }
+
+        // const stream = await file.createWriteStream();
+        // stream.write(fileBody);
+        // stream.end();
+
+        await fs.appendFile(filePath, fileBody);
     }
 };
 
